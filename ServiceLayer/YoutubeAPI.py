@@ -25,6 +25,7 @@ class YoutubeAPI:
 
     def getVideoId(self, url):
         url_data = url_parser.parse_url(url)
+        print('url_data:',url_data)
         try:
             return url_data['query']['v']
         except KeyError:
@@ -48,9 +49,12 @@ class YoutubeAPI:
             else:
                 title = response['items'][0]['snippet']['title']
                 img = self.getImageFromURL(response['items'][0]['snippet']['thumbnails']['default']['url'])
-                videoInfo = PlaylistData.VideoInfo(title, img, urlInput)
+                videoInfo = PlaylistData.VideoInfo(title,urlInput)
                 return videoInfo
         except excepCust.Invalid_Url:
             raise excepCust.Invalid_Url()
         except Exception:
             raise excepCust.GeneralException()
+
+youTube = YoutubeAPI()
+youTube.getYoutubeObject()

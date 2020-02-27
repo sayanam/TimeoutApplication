@@ -5,8 +5,22 @@ from ServiceLayer import TimeoutService
 service = TimeoutService.TimeoutService()
 
 root = tk.Tk()
+######### setting the window size to full screen ############################################
 root.geometry(str(root.winfo_screenwidth()) + 'x' + str(root.winfo_screenheight()))
-print(root.winfo_screenwidth())
+
+################################ Heading ####################################################
+headingFrame = tk.Frame(root)
+headingFrame.config(background='white', height =100, width =root.winfo_screenwidth())
+headingFrame.pack()
+
+##############################################################################################
+
+################################ Playlist Scroll ##################################################
+playlistFrame = tk.Frame(root)
+playlistFrame.config(background='pink', height=300, width =300)
+playlistFrame.place(x=10, y=10)
+playlistFrame.pack()
+
 canvasHeading = tk.Canvas(root, width=1366, height=50)
 canvasHeading.config(background='white')
 print(service.get_windows_username())
