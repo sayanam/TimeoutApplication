@@ -101,7 +101,7 @@ class SqlLiteDatabase:
     def fetch_all_playlist_data(self):
         try:
             conn = self.create_connection()
-            sql = 'select * from playlist;'
+            sql = 'select * from playlist order by id desc;'
             cur = conn.cursor()
             cur.execute(sql)
             rows = cur.fetchall()

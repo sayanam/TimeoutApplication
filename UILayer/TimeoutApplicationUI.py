@@ -52,6 +52,8 @@ def destroy_Toplevel1():
 
 class Toplevel1:
     def __init__(self, top=None):
+        iconsDir = os.getcwd().replace('UILayer', 'icons')
+        background_color = '#fd4267'
         '''This class configures and populates the toplevel window.
            top is the toplevel containing window.'''
         _bgcolor = '#d9d9d9'  # X11 color: 'gray85'
@@ -59,6 +61,8 @@ class Toplevel1:
         _compcolor = '#d9d9d9' # X11 color: 'gray85'
         _ana1color = '#d9d9d9' # X11 color: 'gray85'
         _ana2color = '#ececec' # Closest X11 color: 'gray92'
+        font9 = "-family {Segoe Script} -size 16 -weight bold"
+        font7 = "-family {Segoe Script} -size 12 -weight bold"
         self.style = ttk.Style()
         if sys.platform == "win32":
             self.style.theme_use('winnative')
@@ -74,7 +78,7 @@ class Toplevel1:
         top.resizable(1, 1)
 
         top.title("Timeout App - Take a break !!")
-        top.configure(background="#d9d9d9")
+        top.configure(background=background_color)
         top.configure(highlightbackground="#d9d9d9")
         top.configure(highlightcolor="black")
 
@@ -89,26 +93,32 @@ class Toplevel1:
         ToolTip(self.TEntry1, tooltip_font, '''Enter URL here''', delay=0.5)
 
         self.UploadButton = tk.Button(top)
-        self.UploadButton.place(relx=0.475, rely=0.121, height=24, width=49)
+        self.UploadButton.place(relx=0.475, rely=0.121, height=33, width=49)
         self.UploadButton.configure(command=TimeoutApplicationUISupport.UploadUrl)
         self.UploadButton.configure(activebackground="#ececec")
         self.UploadButton.configure(activeforeground="#000000")
-        self.UploadButton.configure(background="#d9d9d9")
+        self.UploadButton.configure(background=background_color)
+        self.UploadButton.configure(borderwidth=0)
         self.UploadButton.configure(disabledforeground="#a3a3a3")
         self.UploadButton.configure(foreground="#000000")
         self.UploadButton.configure(highlightbackground="#d9d9d9")
         self.UploadButton.configure(highlightcolor="black")
         self.UploadButton.configure(pady="0")
-        self.UploadButton.configure(text='''Upload''')
+        global uploadImage
+        uploadImage = tk.PhotoImage(file=os.path.join(iconsDir, 'plus-green.png'))
+        self.UploadButton.configure(image=uploadImage)
+        self.UploadButton.configure(text='Upload')
         tooltip_font = "TkDefaultFont"
         ToolTip(self.UploadButton, tooltip_font, '''Upload Url''', delay=0.5)
 
         self.Label1 = tk.Label(top)
-        self.Label1.place(relx=0.015, rely=0.027, height=41, width=173)
+        self.Label1.place(relx=0.015, rely=0.027, height=41, width=270)
         self.Label1.configure(activebackground="#f9f9f9")
         self.Label1.configure(activeforeground="black")
-        self.Label1.configure(background="#d9d9d9")
+        self.Label1.configure(background=background_color)
+        #self.Label1.configure(compound='center')
         self.Label1.configure(disabledforeground="#a3a3a3")
+        self.Label1.configure(font=font9)
         self.Label1.configure(foreground="#000000")
         self.Label1.configure(highlightbackground="#d9d9d9")
         self.Label1.configure(highlightcolor="black")
@@ -119,23 +129,29 @@ class Toplevel1:
         top.configure(menu = self.menubar)
 
         self.stopButton = tk.Button(top)
-        self.stopButton.place(relx=0.038, rely=0.336, height=24, width=35)
+        self.stopButton.place(relx=0.038, rely=0.336, height=60, width=60)
         self.stopButton.configure(activebackground="#ececec")
         self.stopButton.configure(activeforeground="#000000")
-        self.stopButton.configure(background="#d9d9d9")
+        self.stopButton.configure(background=background_color)
         self.stopButton.configure(command=TimeoutApplicationUISupport.stop)
         self.stopButton.configure(disabledforeground="#a3a3a3")
         self.stopButton.configure(foreground="#000000")
         self.stopButton.configure(highlightbackground="#d9d9d9")
         self.stopButton.configure(highlightcolor="black")
         self.stopButton.configure(pady="0")
+        self.stopButton.configure(borderwidth="0")
+        global stopImage
+        stopImage = tk.PhotoImage(file=os.path.join(iconsDir, 'stop-lightBlue.png'))
+        self.stopButton.configure(image=stopImage)
         self.stopButton.configure(text='''Stop''')
+        tooltip_font = "TkDefaultFont"
+        ToolTip(self.stopButton, tooltip_font, '''Stops Playlist''', delay=0.5)
 
         self.Button2 = tk.Button(top)
         self.Button2.place(relx=-0.107, rely=0.537, height=24, width=47)
         self.Button2.configure(activebackground="#ececec")
         self.Button2.configure(activeforeground="#000000")
-        self.Button2.configure(background="#d9d9d9")
+        self.Button2.configure(background="black")
         self.Button2.configure(disabledforeground="#a3a3a3")
         self.Button2.configure(foreground="#000000")
         self.Button2.configure(highlightbackground="#d9d9d9")
@@ -144,38 +160,48 @@ class Toplevel1:
         self.Button2.configure(text='''Button''')
 
         self.startButton = tk.Button(top)
-        self.startButton.place(relx=0.038, rely=0.228, height=24, width=35)
+        self.startButton.place(relx=0.038, rely=0.228, height=60, width=60)
         self.startButton.configure(activebackground="#ececec")
         self.startButton.configure(activeforeground="#000000")
-        self.startButton.configure(background="#d9d9d9")
+        self.startButton.configure(background=background_color)
         self.startButton.configure(command=TimeoutApplicationUISupport.start)
         self.startButton.configure(disabledforeground="#a3a3a3")
         self.startButton.configure(foreground="#000000")
         self.startButton.configure(highlightbackground="#d9d9d9")
         self.startButton.configure(highlightcolor="black")
         self.startButton.configure(pady="0")
-        #self.startButton.configure(text='''Start''')
-        #playImage = tk.PhotoImage(file='play2-button.png')
+        self.startButton.configure(borderwidth="0")
+        global startImage
+        startImage = tk.PhotoImage(file=os.path.join(iconsDir, 'play-lightblue.png'))
+        self.startButton.configure(image= startImage)
         self.startButton.configure(text = 'Start')
+        tooltip_font = "TkDefaultFont"
+        ToolTip(self.startButton, tooltip_font, '''Start Playlist''', delay=0.5)
 
 
         self.shuffleButton = tk.Button(top)
-        self.shuffleButton.place(relx=0.038, rely=0.443, height=24, width=48)
+        self.shuffleButton.place(relx=0.038, rely=0.443, height=60, width=60)
         self.shuffleButton.configure(activebackground="#ececec")
         self.shuffleButton.configure(activeforeground="#000000")
-        self.shuffleButton.configure(background="#d9d9d9")
+        self.shuffleButton.configure(background=background_color)
         self.shuffleButton.configure(command=TimeoutApplicationUISupport.Shuffle)
         self.shuffleButton.configure(disabledforeground="#a3a3a3")
         self.shuffleButton.configure(foreground="#000000")
         self.shuffleButton.configure(highlightbackground="#d9d9d9")
         self.shuffleButton.configure(highlightcolor="black")
         self.shuffleButton.configure(pady="0")
+        self.shuffleButton.configure(borderwidth="0")
+        global shuffleImage
+        shuffleImage = tk.PhotoImage(file=os.path.join(iconsDir, 'shuffle.png'))
+        self.shuffleButton.configure(image=shuffleImage)
         self.shuffleButton.configure(text='''Shuffle''')
+        tooltip_font = "TkDefaultFont"
+        ToolTip(self.shuffleButton, tooltip_font, '''Shuffles Playlist''', delay=0.5)
 
         # History Listbox
         self.Scrolledlistbox2 = ScrolledListBox(top)
         self.Scrolledlistbox2.place(relx=0.0, rely=0.644, relheight=0.342, relwidth=0.553)
-        self.Scrolledlistbox2.configure(background="white")
+        self.Scrolledlistbox2.configure(background="#d2d2d2")
         self.Scrolledlistbox2.configure(cursor="xterm")
         self.Scrolledlistbox2.configure(disabledforeground="#a3a3a3")
         self.Scrolledlistbox2.configure(font="TkFixedFont")
@@ -189,14 +215,15 @@ class Toplevel1:
             self.Scrolledlistbox2.insert(tk.END, temp)
 
         self.Label3 = tk.Label(top)
-        self.Label3.place(relx=0.698, rely=0.215, height=21, width=184)
+        self.Label3.place(relx=0.698, rely=0.215, height=24, width=184)
         self.Label3.configure(activebackground="#f9f9f9")
         self.Label3.configure(activeforeground="black")
-        self.Label3.configure(background="#d9d9d9")
+        self.Label3.configure(background=background_color)
         self.Label3.configure(disabledforeground="#a3a3a3")
         self.Label3.configure(foreground="#000000")
         self.Label3.configure(highlightbackground="#d9d9d9")
         self.Label3.configure(highlightcolor="black")
+        self.Label3.configure(font=font7)
         self.Label3.configure(text='''Playlist''')
 
         self.Spinbox1 = tk.Spinbox(top, from_=1.0, to=100.0)
@@ -232,7 +259,7 @@ class Toplevel1:
         # Playlist scrollList
         self.Scrolledlistbox1 = ScrolledListBox(top, selectmode = tk.EXTENDED)
         self.Scrolledlistbox1.place(relx=0.552, rely=0.255, relheight=0.733, relwidth=0.446)
-        self.Scrolledlistbox1.configure(background="white")
+        self.Scrolledlistbox1.configure(background='#d2d2d2')#white
         self.Scrolledlistbox1.configure(cursor="xterm")
         self.Scrolledlistbox1.configure(disabledforeground="#a3a3a3")
         self.Scrolledlistbox1.configure(font="TkFixedFont")
@@ -245,16 +272,20 @@ class Toplevel1:
             self.Scrolledlistbox1.insert(tk.END,item.songname)
 
         self.DeleteButton = tk.Button(top)
-        self.DeleteButton.place(relx=0.56, rely=0.215, height=24, width=97)
+        self.DeleteButton.place(relx=0.52, rely=0.188, height=44, width=97)
         self.DeleteButton.configure(activebackground="#ececec")
         self.DeleteButton.configure(activeforeground="#000000")
-        self.DeleteButton.configure(background="#d9d9d9")
+        self.DeleteButton.configure(background=background_color)
         self.DeleteButton.configure(command=TimeoutApplicationUISupport.deletePlaylistElements)
         self.DeleteButton.configure(disabledforeground="#a3a3a3")
         self.DeleteButton.configure(foreground="#000000")
         self.DeleteButton.configure(highlightbackground="#d9d9d9")
         self.DeleteButton.configure(highlightcolor="black")
+        self.DeleteButton.configure(borderwidth=0)
         self.DeleteButton.configure(pady="0")
+        global deleteImage
+        deleteImage = tk.PhotoImage(file=os.path.join(iconsDir, 'recycle-bin.png'))
+        self.DeleteButton.configure(image=deleteImage)
         self.DeleteButton.configure(text='''Delete''')
         tooltip_font = "TkDefaultFont"
         ToolTip(self.DeleteButton, tooltip_font, '''Deletes the selected elements of playlist''', delay=0.5)
@@ -268,9 +299,10 @@ class Toplevel1:
 
         self.HistoryLabel = tk.Label(top)
         self.HistoryLabel.place(relx=0.008, rely=0.604, height=21, width=114)
-        self.HistoryLabel.configure(background="#d9d9d9")
+        self.HistoryLabel.configure(background=background_color)
         self.HistoryLabel.configure(disabledforeground="#a3a3a3")
         self.HistoryLabel.configure(foreground="#000000")
+        self.HistoryLabel.configure(font=font7)
         self.HistoryLabel.configure(text='''User History''')
 
 # ======================================================

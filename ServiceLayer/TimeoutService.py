@@ -22,6 +22,9 @@ class TimeoutService:
     def get_user_history(self):
         return SqlLiteDatabase().fetch_all_history_data()
 
+    def get_playlist_data(self):
+        return SqlLiteDatabase().fetch_all_playlist_data()
+
     def get_url_info(self):
         return "Code for returning the url and the tumbnail info"
 
