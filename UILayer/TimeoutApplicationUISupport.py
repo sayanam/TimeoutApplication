@@ -36,19 +36,20 @@ def set_Tk_var():
     spinbox = tk.StringVar()
 
 def init(top, gui, *args, **kwargs):
-    global w, top_level, root, Scrolledlistbox1
+    global w, top_level, root, Scrolledlistbox1, timeCounter
     w = gui
     top_level = top
     root = top
+    timeCounter = 0
 
 def Shuffle():
     print('TimeoutApplicationUISupport.Shuffle')
-    random.shuffle(playlistData)
-    rePopulatePlayListBoxWithListElements()
-
-def rePopulatePlayListBoxWithListElements():
-    w.Scrolledlistbox1.delete(0, tk.END)
     playlistData = ts.get_playlist_data()
+    random.shuffle(playlistData)
+    rePopulatePlayListBoxWithListElements(playlistData)
+
+def rePopulatePlayListBoxWithListElements(playlistData):
+    w.Scrolledlistbox1.delete(0, tk.END)
     lenPlaylistData = len(playlistData)
     for i in range(0, lenPlaylistData):
         w.Scrolledlistbox1.insert(tk.END, playlistData[i].songname)
@@ -73,7 +74,7 @@ def UploadUrl():
             #w.Scrolledlistbox1.insert(tk.END,songName)
             w.TEntry1.delete(0, tk.END)
             #playlistData.append(VideoInfo(songName, url))
-            rePopulatePlayListBoxWithListElements()
+            rePopulatePlayListBoxWithListElements(ts.get_playlist_data())
             rePopulateHistoryBox()
             messagebox.showinfo('Upload Successful !!', 'Song added to playlist successfully!!')
     except exceptCust.Invalid_Url:
@@ -93,32 +94,60 @@ def deletePlaylistElements():
     rePopulateHistoryBox()
     sys.stdout.flush()
 
+def getIntervalValue():
+    try:
+        return int(w.Spinbox1.get())
+    except ValueError:
+        return 10
 
-def start_recursion():
-    url = w.Scrolledlistbox1.get(0)
-    ts.openURLInBrowser(url)
-    lenPlaylistData = len(playlistData)
-    temp = playlistData[0]
-    for i in range(0, lenPlaylistData -1):
-        playlistData[i] = playlistData[i + 1]
-    playlistData[lenPlaylistData-1] = temp
-    rePopulatePlayListBoxWithListElements()
-    start()
+'''
+Logic written only for seconds. Minutes are not implemented
+'''
+def displayTimer(min, sec):
+    timeDisplayFormat = 'mm:ss'
+    timeToDisplay = ''
+    if sec > 9:
+        timeToDisplay = timeDisplayFormat.replace('mm', '00').replace('ss', str(sec))
+    else:
+        timeToDisplay = timeDisplayFormat.replace('mm', '00').replace('ss', '0' + str(sec))
+    w.TimerLabel['text'] = timeToDisplay
+
 
 def start():
     print('TimeoutApplicationUISupport.start')
-    interval = int(w.Spinbox1.get())
-    global threadTimerVar
-    threadTimerVar = Timer(interval, start_recursion) ## This is in seconds
-    threadTimerVar.start()
-    sys.stdout.flush()
+    global timeCounter
+    interval = getIntervalValue()
+    mm = 00
+    print('Interval',interval)
+    print('timeCounter', timeCounter)
+    ss = interval - timeCounter
+    timeCounter += 1
+    displayTimer(mm, ss)
+    if timeCounter == interval:
+        timeCounter = 0
+        url = w.Scrolledlistbox1.get(0)
+        ts.openURLInBrowser(url)
+        lenPlaylistData = len(playlistData)
+        temp = playlistData[0]
+        for i in range(0, lenPlaylistData - 1):
+            playlistData[i] = playlistData[i + 1]
+        playlistData[lenPlaylistData - 1] = temp
+        rePopulatePlayListBoxWithListElements(playlistData)
+    global recurssiveThread
+    recurssiveThread = Timer(1, start)
+    recurssiveThread.start()
 
 def stop():
     print('in method TimeoutApplicationUISupport.stop')
-    if threadTimerVar.is_alive():
-        print('Stopping thread from execution')
-        threadTimerVar.cancel()# Cancel mearly kills the time of occurance, the thread is still active
+    try:
+        if recurssiveThread.is_alive():
+            print('Stopping thread from execution')
+            recurssiveThread.cancel()# Cancel mearly kills the time of occurance, the thread is still active
+            displayTimer(00,00)
+    except NameError:
+        print('Thread not yet created !!')
     sys.stdout.flush()
+
 
 def destroy_window():
     # Function which closes the window.

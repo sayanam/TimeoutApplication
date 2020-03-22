@@ -63,6 +63,7 @@ class Toplevel1:
         _ana2color = '#ececec' # Closest X11 color: 'gray92'
         font9 = "-family {Segoe Script} -size 16 -weight bold"
         font7 = "-family {Segoe Script} -size 12 -weight bold"
+        font4 = "-family {Segoe Script} -size 9 -weight bold"
         self.style = ttk.Style()
         if sys.platform == "win32":
             self.style.theme_use('winnative')
@@ -241,7 +242,7 @@ class Toplevel1:
         self.Spinbox1.configure(selectbackground="#c4c4c4")
         self.Spinbox1.configure(selectforeground="black")
         self.Spinbox1.configure(textvariable=TimeoutApplicationUISupport.spinbox)
-        self.value_list = ['20',]
+        self.value_list = ['5','10','20','30','40','50']
         self.Spinbox1.configure(values=self.value_list)
 
 
@@ -249,12 +250,14 @@ class Toplevel1:
         self.Label4.place(relx=0.782, rely=0.121, height=21, width=94)
         self.Label4.configure(activebackground="#f9f9f9")
         self.Label4.configure(activeforeground="black")
-        self.Label4.configure(background="#d9d9d9")
+        self.Label4.configure(background=background_color)
         self.Label4.configure(disabledforeground="#a3a3a3")
         self.Label4.configure(foreground="#000000")
+        self.Label4.configure(borderwidth = 0)
         self.Label4.configure(highlightbackground="#d9d9d9")
         self.Label4.configure(highlightcolor="black")
-        self.Label4.configure(text='''Interval (min)''')
+        self.Label4.configure(font=font4)
+        self.Label4.configure(text='''Interval (sec)''')
 
         # Playlist scrollList
         self.Scrolledlistbox1 = ScrolledListBox(top, selectmode = tk.EXTENDED)
@@ -292,10 +295,11 @@ class Toplevel1:
 
         self.TimerLabel = tk.Label(top)
         self.TimerLabel.place(relx=0.176, rely=0.309, height=71, width=310)
-        self.TimerLabel.configure(background="#d9d9d9")
+        self.TimerLabel.configure(background="#fd4267")
+        self.TimerLabel.configure(font='-family {Terminal} -size 18 -weight bold')
         self.TimerLabel.configure(disabledforeground="#a3a3a3")
-        self.TimerLabel.configure(foreground="#000000")
-        self.TimerLabel.configure(text='''Label''')
+        self.TimerLabel.configure(foreground="#fafd84")
+        self.TimerLabel.configure(text='''00:00''')
 
         self.HistoryLabel = tk.Label(top)
         self.HistoryLabel.place(relx=0.008, rely=0.604, height=21, width=114)
