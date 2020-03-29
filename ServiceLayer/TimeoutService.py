@@ -6,6 +6,8 @@ from TransferObjects.PlaylistData import VideoInfo, UserHistoryInfo
 from DAOLayer.SqlLiteConnection import SqlLiteDatabase
 from datetime import datetime
 import webbrowser
+from urllib.request import urlopen
+from bs4 import BeautifulSoup
 
 
 class TimeoutService:
@@ -36,11 +38,19 @@ class TimeoutService:
     def uploadUrl(self, inputUrl):
         if ('www.youtube.com' in inputUrl):
             videoData = YoutubeAPI().getVideoTileAndThumbnail(inputUrl)
-            SqlLiteDatabase().insert_data_playlist_table(videoData)
-            SqlLiteDatabase().insert_data_history_table(UserHistoryInfo(videoData.songname, 'INSERT', datetime.now()))
-            return videoData.songname
         else:
-            raise exceptCust.Invalid_Url
+            try:
+                page = urlopen(inputUrl)
+                soup = BeautifulSoup(page, 'html.parser')
+                title = soup.title.string
+                if title == '':
+                    title = inputUrl
+                videoData = VideoInfo(title, inputUrl)
+            except Exception:
+                raise exceptCust.Invalid_Url
+        SqlLiteDatabase().insert_data_playlist_table(videoData)
+        SqlLiteDatabase().insert_data_history_table(UserHistoryInfo(videoData.songname, 'INSERT', datetime.now()))
+        return videoData.songname
 
     def deletePlaylistItem(self, playlistItem):
         SqlLiteDatabase().delete_playlist_data_by_name(playlistItem)
