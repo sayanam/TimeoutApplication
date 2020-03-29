@@ -78,10 +78,10 @@ def UploadUrl():
             raise exceptCust.UrlAlreadyExists
         songName = ts.uploadUrl(url)
         if songName != '':
-            #w.Scrolledlistbox1.insert(tk.END,songName)
             w.TEntry1.delete(0, tk.END)
-            #playlistData.append(VideoInfo(songName, url))
-            rePopulatePlayListBoxWithListElements(ts.get_playlist_data())
+            global playlistData
+            playlistData = ts.get_playlist_data()
+            rePopulatePlayListBoxWithListElements(playlistData)
             rePopulateHistoryBox()
             messagebox.showinfo('Upload Successful !!', 'Url added to playlist successfully!!')
     except exceptCust.UrlAlreadyExists:
@@ -134,8 +134,8 @@ def start():
     displayTimer(mm, ss)
     if timeCounter == interval:
         timeCounter = 0
-        url = w.Scrolledlistbox1.get(0)
-        ts.openURLInBrowser(url)
+        #url = w.Scrolledlistbox1.get(0)
+        ts.openURLInBrowser(playlistData[0].urladdress)
         lenPlaylistData = len(playlistData)
         temp = playlistData[0]
         for i in range(0, lenPlaylistData - 1):
