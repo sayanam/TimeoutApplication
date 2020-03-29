@@ -64,11 +64,18 @@ def rePopulateHistoryBox():
         w.Scrolledlistbox2.insert(tk.END, temp)
     sys.stdout.flush()
 
+def checkIFUrlAlreadyExists(url):
+    for playlist in playlistData:
+        if playlist.urladdress == url:
+            return True
+    return False
 
 def UploadUrl():
     try:
         print("In upload url")
         url = str(w.TEntry1.get())
+        if checkIFUrlAlreadyExists(url):
+            raise exceptCust.UrlAlreadyExists
         songName = ts.uploadUrl(url)
         if songName != '':
             #w.Scrolledlistbox1.insert(tk.END,songName)
@@ -76,7 +83,9 @@ def UploadUrl():
             #playlistData.append(VideoInfo(songName, url))
             rePopulatePlayListBoxWithListElements(ts.get_playlist_data())
             rePopulateHistoryBox()
-            messagebox.showinfo('Upload Successful !!', 'Song added to playlist successfully!!')
+            messagebox.showinfo('Upload Successful !!', 'Url added to playlist successfully!!')
+    except exceptCust.UrlAlreadyExists:
+        messagebox.showerror('Url Exists', 'The entered URL is already added to playlist !!')
     except exceptCust.Invalid_Url:
         messagebox.showerror('Invalid Url', 'The entered URL is invalid !!')
     except exceptCust.GeneralException:

@@ -1,7 +1,6 @@
 import googleapiclient.discovery
 from TransferObjects import PlaylistData
 import ExceptionPackage.TimeOutCustomException  as excepCust
-from PIL import Image
 import requests
 from io import BytesIO
 import url_parser
@@ -14,14 +13,6 @@ class YoutubeAPI:
         YOUTUBE_API_VERSION = "v3"
         return googleapiclient.discovery.build(YOUTUBE_API_SERVICE_NAME, YOUTUBE_API_VERSION,
                                         developerKey=DEVELOPER_KEY)
-
-    def getImageFromURL(self, url):
-        response = requests.get(url)
-        if response.status_code == 200:
-            img = Image.open(BytesIO(response.content))
-        else:
-            img = Image.open(BytesIO('sampleFileName.jpg')) # untested code, verify!!!
-        return img
 
     def getVideoId(self, url):
         url_data = url_parser.parse_url(url)
@@ -48,7 +39,6 @@ class YoutubeAPI:
                 raise excepCust.Invalid_Url()
             else:
                 title = response['items'][0]['snippet']['title']
-                img = self.getImageFromURL(response['items'][0]['snippet']['thumbnails']['default']['url'])
                 videoInfo = PlaylistData.VideoInfo(title,urlInput)
                 return videoInfo
         except excepCust.Invalid_Url:
