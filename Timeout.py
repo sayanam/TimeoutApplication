@@ -54,7 +54,8 @@ class Toplevel1:
     def __init__(self, top=None):
         #iconsDir = os.getcwd().replace('UILayer', 'icons')
         iconsDir = os.getcwd()+'\icons'
-        background_color = '#fd4267'
+        #background_color = '#fd4267'
+        background_color = '#AEB6BF'
         '''This class configures and populates the toplevel window.
            top is the toplevel containing window.'''
         _bgcolor = '#d9d9d9'  # X11 color: 'gray85'
@@ -296,10 +297,11 @@ class Toplevel1:
 
         self.TimerLabel = tk.Label(top)
         self.TimerLabel.place(relx=0.176, rely=0.309, height=71, width=310)
-        self.TimerLabel.configure(background="#fd4267")
+        self.TimerLabel.configure(background=background_color)
         self.TimerLabel.configure(font='-family {Terminal} -size 18 -weight bold')
         self.TimerLabel.configure(disabledforeground="#a3a3a3")
-        self.TimerLabel.configure(foreground="#fafd84")
+        #self.TimerLabel.configure(foreground="#fafd84")
+        self.TimerLabel.configure(foreground="#000000")
         self.TimerLabel.configure(text='''00:00''')
 
         self.HistoryLabel = tk.Label(top)
