@@ -8,7 +8,7 @@ import url_parser
 class YoutubeAPI:
 
     def getYoutubeObject(self):
-        DEVELOPER_KEY = "AIzaSyAzOKbNS2YjXH05mn_HxrGYuPSTow37jGI"
+        DEVELOPER_KEY = ""
         YOUTUBE_API_SERVICE_NAME = "youtube"
         YOUTUBE_API_VERSION = "v3"
         return googleapiclient.discovery.build(YOUTUBE_API_SERVICE_NAME, YOUTUBE_API_VERSION,
